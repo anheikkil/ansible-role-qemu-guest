@@ -2,3 +2,40 @@
 # tasks file for ansible_role_qemu_guest
 - name: Include variables
   ansible.builtin.include_tasks: tasks/include_vars.yml
+
+- name: Install qemu guest agent package
+  tags: package,qemu,guest
+  become: true
+  ansible.builtin.package:
+    name: "{{ qemu_guest_agent_package }}"
+    state: present
+  when: install_qemu_guest_agent
+
+- name: Remove qemu guest agent package
+  tags: package,qemu,guest
+  become: true
+  ansible.builtin.package:
+    name: "{{ qemu_guest_agent_package }}"
+    state: absent
+  when: not install_qemu_guest_agent
+
+- name: Start qemu guest agent is running
+  tags: service,qemu,guest
+  become: true
+  ansible.builtin.service:
+    name: qemu-guest-agent
+    state: started
+  when: install_qemu_guest_agent
+
+- name: Enable qemu guest agent
+  tags: service,qemu,guest
+  become: true
+  ansible.builtin.service:
+    name: qemu-guest-agent
+    enabled: yes
+  when: install_qemu_guest_agent
+
+# TODO: Ensure that the ansible.builtin.service module supports Alpine Linux 
+
+- name: Configure spice guest tools
+  ansible.builtin.include_tasks: tasks/configure_spice_guest_tools.yml

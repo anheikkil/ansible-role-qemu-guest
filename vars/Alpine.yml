@@ -1,0 +1,5 @@
+---
+# vars file for ansible_role_qemu_guest
+qemu_guest_agent_package: qemu_guest_agent
+spice_guest_agent_package: spice-vdagent
+spice_webdav_daemon_package: spice-webdavd

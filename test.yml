@@ -5,9 +5,19 @@
   gather_facts: false
 
   pre_tasks:
-    - name: Update package cache
-      ansible.builtin.package:
+    - name: Update package cache (Alpine Linux)
+      tags: package-manager
+      community.general.apk:
         update_cache: true
+      when: ansible_distribution == "Alpine"
+
+    - name: Update package cache (Debian, Pop!_OS)
+      tags: package-manager
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_distribution in ["Debian", "Pop!_OS"]
+
+  tasks:
 
   roles:
-    - role: .
+    - role: ../ansible-role-qemu-guest

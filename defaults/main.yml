@@ -1,2 +1,5 @@
 ---
 # defaults file for ansible_role_qemu_guest
+install_qemu_guest_agent: true
+install_spice_guest_agent: true
+install_spice_webdav_daemon: false

@@ -1,0 +1,37 @@
+---
+# tasks file for ansible_role_qemu_guest
+- name: Install spice guest agent package
+  tags: package,qemu,guest
+  become: true
+  ansible.builtin.package:
+    name: "{{ spice_guest_agent_package }}"
+    state: present
+  when: install_spice_guest_agent
+
+- name: Remove spice guest agent package
+  tags: package,qemu,guest
+  become: true
+  ansible.builtin.package:
+    name: "{{ spice_guest_agent_package }}"
+    state: absent
+  when: not install_spice_guest_agent
+
+# TODO: Start and enable spice-vdagent
+
+- name: Install spice webdav daemon package
+  tags: package,qemu,guest
+  become: true
+  ansible.builtin.package:
+    name: "{{ spice_webdav_daemon_package }}"
+    state: present
+  when: install_spice_webdav_daemon
+
+- name: Remove spice webdav daemon package
+  tags: package,qemu,guest
+  become: true
+  ansible.builtin.package:
+    name: "{{ spice_webdav_daemon_package }}"
+    state: absent
+  when: not install_spice_webdav_daemon
+
+# TODO: Start and enable spice-webdavd
